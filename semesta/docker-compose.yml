@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+    webserver:
+        build: ./bin/webserver
+        container_name: 'web-apps'
+        ports: 
+            - "80:80"
+        volumes:
+            - ./www:/var/www/html/semesta
+            - ./bin/apache/apache.conf:/etc/apache2/sites-enabled/000-default.conf
+     
+        networks:
+            - default
+            
+    mysql:
+        build: ./bin/mysql
+        container_name: 'dbmysql-semesta'
+        # restart: 'always'
+        ports:
+            - "3306:3306"
+        volumes:
+            - /var/lib/mysql
+        networks:
+            - default
+        environment:
+            MYSQL_DATABASE: semesta
+            MYSQL_USER: sevima
+            MYSQL_PASSWORD: root
+            MYSQL_ROOT_PASSWORD: root
+
+
